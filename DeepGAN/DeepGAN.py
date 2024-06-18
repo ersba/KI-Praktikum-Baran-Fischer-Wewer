@@ -6,13 +6,18 @@ import torchvision.transforms as transforms
 import torchvision.datasets as datasets
 import torchvision.utils as vutils
 from torch.utils.data import DataLoader
+import numpy as np
 from torchvision.datasets import ImageFolder
 
 if __name__ == "__main__":
+    print(f'NumPy version: {np.__version__}')
+    print(torch.cuda.is_available())
+    print(torch.cuda.device_count())
+    print(torch.cuda.get_device_name(0))
     # Set random seed for reproducibility
     manualSeed = 999
     torch.manual_seed(manualSeed)
-    image_size = 64
+    image_size = 350
 
     # Number of workers for dataloader
     workers = 2
@@ -51,7 +56,7 @@ if __name__ == "__main__":
     nz = 100  # Size of z latent vector (i.e. size of generator input)
     ngf = 64  # Size of feature maps in generator
     ndf = 64  # Size of feature maps in discriminator
-    num_epochs = 5  # Number of training epochs
+    num_epochs = 20  # Number of training epochs
     lr = 0.0002  # Learning rate for optimizers
     beta1 = 0.5  # Beta1 hyperparam for Adam optimizers
     ngpu = 1  # Number of GPUs available. Use 0 for CPU mode.
@@ -59,14 +64,9 @@ if __name__ == "__main__":
     # Decide which device we want to run on
     device = torch.device("cuda:0" if (torch.cuda.is_available() and ngpu > 0) else "cpu")
     print(f"Using device: {device}")
+    if device.type == 'cuda':
+        print(f"GPU: {torch.cuda.get_device_name(0)}")
     # Weight initialization function
-    def weights_init(m):
-        classname = m.__class__.__name__
-        if classname.find('Conv') != -1:
-            nn.init.normal_(m.weight.data, 0.0, 0.02)
-        elif classname.find('BatchNorm') != -1:
-            nn.init.normal_(m.weight.data, 1.0, 0.02)
-            nn.init.constant_(m.bias.data, 0)
 
     # Generator Code
     class Generator(nn.Module):
@@ -107,6 +107,15 @@ if __name__ == "__main__":
         netG = nn.DataParallel(netG, list(range(ngpu)))
 
     # Apply the weight initialization function to the generator
+
+    def weights_init(m):
+        classname = m.__class__.__name__
+        if classname.find('Conv') != -1:
+            nn.init.normal_(m.weight.data, 0.0, 0.02)
+        elif classname.find('BatchNorm') != -1:
+            nn.init.normal_(m.weight.data, 1.0, 0.02)
+            nn.init.constant_(m.bias.data, 0)
+
     netG.apply(weights_init)
 
     # Discriminator Code
@@ -187,6 +196,7 @@ if __name__ == "__main__":
             label = torch.full((b_size,), real_label, dtype=torch.float, device=device)
             # Forward pass real batch through D
             output = netD(real_cpu).view(-1)
+            label = torch.full(output.shape, real_label, dtype=torch.float, device=device)
             # Calculate loss on all-real batch
             errD_real = criterion(output, label)
             # Calculate gradients for D in backward pass
@@ -198,9 +208,8 @@ if __name__ == "__main__":
             noise = torch.randn(b_size, nz, 1, 1, device=device)
             # Generate fake image batch with G
             fake = netG(noise)
-            label.fill_(fake_label)
-            # Classify all fake batch with D
             output = netD(fake.detach()).view(-1)
+            label = torch.full(output.shape, fake_label, dtype=torch.float, device=device)
             # Calculate D's loss on the all-fake batch
             errD_fake = criterion(output, label)
             # Calculate the gradients for this batch
@@ -215,9 +224,8 @@ if __name__ == "__main__":
             # (2) Update G network: maximize log(D(G(z)))
             ###########################
             netG.zero_grad()
-            label.fill_(real_label)  # fake labels are real for generator cost
-            # Since we just updated D, perform another forward pass of all-fake batch through D
             output = netD(fake).view(-1)
+            label = torch.full(output.shape, real_label, dtype=torch.float, device=device)
             # Calculate G's loss based on this output
             errG = criterion(output, label)
             # Calculate gradients for G
