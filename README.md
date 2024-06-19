@@ -1,6 +1,6 @@
 # KI-Praktikum-Baran-Fischer-Wewer
 
-Idee: Die Idee dieses Projektes ist ein Satelitenbild zu nehmen und mithilfe von GANs ein Satelitenbild zu generieren auf dem der Ausbruch eines Feuers simuliert wird.
+Idee: In diesem Projekt wollen wir die mögliche Ausbreitung von Waldbränden unter Zuhilfenahme von GANs simulieren. Hierfür verwenden wir echte Satellitenbilder mit und ohne Waldbrände, um diverse GANs zu trainieren und im Anschluss unser Ergebnis und die Fähigkeit unseres Modells realistische Satellitenbilder von Bränden zu erzeugen zu prüfen.
 
 Schwierigkeit 1: Die Datensammlung stellt eine erhebliche Herausforderung da, denn es gibt nur wenige und nicht ausreichende Bilder die für unseren Ansatz genutzt werden können. Aus diesem Grund war der erste Ansatz das Datenset https://www.kaggle.com/datasets/abdelghaniaaba/wildfire-prediction-dataset zu verwenden. Das Problem bei diesem Datenset ist allerdings das die Bilder von Waldbränden aus anderen Koordinaten kommen als die Bilder ohne Waldbrände. Daher kann dieses Datenset nicht genutzt werden um den Ausbruch eines Feuers  vorher und nachher darzustellen. Deswegen war der erste Ansatz ein CycleGAN zu verwenden.
 
