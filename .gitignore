@@ -1,2 +1,5 @@
 dataset/**
-idea/**
+.idea/
+Pix2Pix/evaluation/**
+Pix2Pix/x.png
+Pix2Pix/y.png
