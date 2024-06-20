@@ -18,5 +18,30 @@ Dieser Ansatz hat trotz einiger komplikationen sehr gut funktioniert und so exis
 Da wir nun ein vollständiges Datenset haben besteht die Möglichkeit weitere GAN Ansätze zu testen.
 
 DeepGAN Ansatz Alle:
+- Erste lauffähige Implementierung
+- Sicherstellung der Einhaltung der Architektur nach den im Paper ["Unsupervised Representation Learning with Deep Convolutional Generative Adversarial Networks"](https://arxiv.org/abs/1511.06434) genannten Vorgaben: 
+  - Ersetze alle Pooling-Schichten durch Strided Convolutions (Discriminator) und Fractional-Strided Convolutions (Generator).
+  - Verwende Batchnorm sowohl im Generator als auch im Diskriminator.
+  - Entferne vollständig verbundene Hidden Layer für tiefere Architekturen.
+  - Verwende ReLU-Aktivierung im Generator für alle Schichten außer der Ausgabe, die Tanh verwendet.
+  - Verwende LeakyReLU-Aktivierung im Diskriminator für alle Schichten.
+
+
+DeepGAN Fehlerbehebung Ersan:
+- Analyse des Papers "Unsupervised Representation Learning with Deep Convolutional Generative Adversarial Networks" um zu verstehen wie
+die verschiedenen Techniken funktionieren und worauf man bei der Architektur achten muss bei DCGANs.
+- Analyse der Funktionsweise von Strided Convolutions sowie Fractional-Strided Convolutions(Transposed Convolutions)
+- Entschluss dass das Modell für die Lösung des Problems nicht geeignet ist und der Pix2Pix Ansatz eher zielführend ist
+
+Pix2Pix Ansatz Ersan:
+- Erste Implementierung
+- Anpassung nach den Satelittenbilern
+- Erster erfolgreicher Test
+- Anpassung der Schichten damit auch wirklich die verlangte Auflösung 350x350 Pixel für jedes Bild erhalten wird
+- Primitiver Ansatz bei dem ein weiteres ConvTranspose2D Layer verwendet wird fürs upscaling, gefolgt von einem resize um genau auf den Wert 350x350 zu kommen.
+Der [ConvNet Calculator](https://madebyollin.github.io/convnet-calculator/) und [ConvTranspose2D Calculator](https://abdumhmd.github.io/files/convtranspose2d.html)helfen beim Verständnis des Problems von der Anpassung durch Convolutions
+- Der Ansatz führte zu Problemen weil die Architektur es nicht zulässt eine weitere ConvTranspose2D hinzuzugügen.
+- Anderer Ansatz mit interpolate billinear wurde verwendet -> Bilder haben die verlangte Dimension sind aber von der Qualität schlecht. Nach längerem Training muss die Qualität der Bilder getestet werden.
+
 
 
