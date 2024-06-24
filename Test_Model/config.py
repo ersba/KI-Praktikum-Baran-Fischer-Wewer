@@ -1,13 +1,15 @@
+import os
+
 import albumentations as A
 import torch
 from albumentations.pytorch import ToTensorV2
 
 
 DEVICE = "cuda" if torch.cuda.is_available() else "cpu"
-BASE_DIR = "D:\\neu_studium\\Master_Semester_01\\KI\\KI_Script_2_0"
-TRAIN_DIR = f"{BASE_DIR}\\actual_dataset\\train"
-VAL_DIR = f"{BASE_DIR}\\actual_dataset\\val"
-TEST_DIR = f"{BASE_DIR}\\actual_dataset\\test"
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+TRAIN_DIR = os.path.join(BASE_DIR, 'actual_dataset', 'train')
+VAL_DIR = os.path.join(BASE_DIR, 'actual_dataset', 'val')
+TEST_DIR = os.path.join(BASE_DIR, 'actual_dataset', 'test')
 LEARNING_RATE = 2e-4
 BATCH_SIZE = 16
 NUM_WORKERS = 4
