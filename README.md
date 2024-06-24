@@ -50,4 +50,4 @@ Laden Sie die Datei gen.pth aus unserem Teams-Kanal herunter und legen Sie sie i
 https://hawhamburgedu.sharepoint.com/:u:/s/KIPraktikumBaranFischerWewer/Ea4VlttPPwxGgvVEkoR8mSoB-1_iY-2z1aWO-nfX-1BlLg?e=tq4SF1
 
 Um Bilder von möglichen Waldbränden zu generieren muss nur das Script [generate_image.py](Test_Model/generate_image.py) ausgeführt werden.
-Das Script erstellt für jedes Satellitenbild im Ordner [Test_Model/images/original](Test_Model/images/original) ein Bild im Ordner [Test_Model/images/original](Test_Model/images/generated) auf dem die mögliche Ausbreitung eines Waldbrandes zu sehen ist.
+Das Script erstellt für jedes Satellitenbild im Ordner [Test_Model/images/original](Test_Model/images/original) ein Bild im Ordner [Test_Model/images/generated](Test_Model/images/generated) auf dem die mögliche Ausbreitung eines Waldbrandes zu sehen ist.
