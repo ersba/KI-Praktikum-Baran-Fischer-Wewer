@@ -89,8 +89,26 @@ class Generator(nn.Module):
 
 # Parameters (same as in the training script)
 image_size = config.IMAGE_SIZE  # Update with your image size
-checkpoint_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'gen.pth')
-test_image_path = os.path.join("D:\\neu_studium\\Master_Semester_01\\KI\\KI_Script_2_0\\actual_dataset\\test\\nowildfire", '-61.91385,50.24131.jpg')
+# Define the path to the current script directory
+current_dir = os.path.dirname(os.path.abspath(__file__))
+
+# Define the relative path to the images directory within the Test_Model directory
+images_dir = os.path.join(current_dir, 'images', 'original')
+
+# Get the list of files in the images directory
+image_files = os.listdir(images_dir)
+
+# Filter the list to only include files with .jpg extension
+image_files = [file for file in image_files if file.endswith('.jpg')]
+
+# Sort the files (optional, depending on how you want to define "first")
+image_files.sort()
+
+# Define the relative path to the gen.pth file within the Test_Model directory
+checkpoint_path = os.path.join(current_dir, 'gen.pth')
+
+print(f"Images directory: {images_dir}")
+print(f"Checkpoint path: {checkpoint_path}")
 
 # Device
 device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
@@ -112,29 +130,40 @@ transform = transforms.Compose([
     transforms.ToTensor(),
     transforms.Normalize((0.5, 0.5, 0.5), (0.5, 0.5, 0.5)),
 ])
+generated_images_dir = os.path.join(current_dir, 'images', 'generated')
 
-# Open the image
-image = Image.open(test_image_path).convert('RGB')
+# Create the generated images directory if it doesn't exist
+os.makedirs(generated_images_dir, exist_ok=True)
+# Iterate over all images in the folder
+for image_file in image_files:
+    test_image_path = os.path.join(images_dir, image_file)
 
-# Apply transformations
-image_tensor = transform(image).unsqueeze(0).to(device)
+    # Open the image
+    image = Image.open(test_image_path).convert('RGB')
 
-# Generate the fake image
-with torch.no_grad():
-    fake_image = netG(image_tensor).detach().cpu()
+    # Apply transformations
+    image_tensor = transform(image).unsqueeze(0).to(device)
 
-# Plot the original and generated images
-plt.figure(figsize=(12, 6))
+    # Generate the fake image
+    with torch.no_grad():
+        fake_image = netG(image_tensor).detach().cpu()
 
-# Original image
-plt.subplot(1, 2, 1)
-plt.title("Original Image")
-plt.imshow(np.transpose(image_tensor.squeeze().cpu().numpy(), (1, 2, 0)) * 0.5 + 0.5)  # De-normalize
+    # Plot the original and generated images
+    plt.figure(figsize=(12, 6))
 
-# Generated image
-plt.subplot(1, 2, 2)
-plt.title("Generated Image")
-plt.imshow(np.transpose(fake_image.squeeze().numpy(), (1, 2, 0)) * 0.5 + 0.5)  # De-normalize
+    # Original image
+    plt.subplot(1, 2, 1)
+    plt.title("Original Image")
+    plt.imshow(np.transpose(image_tensor.squeeze().cpu().numpy(), (1, 2, 0)) * 0.5 + 0.5)  # De-normalize
 
-# Save the plot instead of showing it
-plt.savefig('generated_vs_original.png')
+    # Generated image
+    plt.subplot(1, 2, 2)
+    plt.title("Generated Image")
+    plt.imshow(np.transpose(fake_image.squeeze().numpy(), (1, 2, 0)) * 0.5 + 0.5)  # De-normalize
+
+    # Save the plot instead of showing it
+    save_path = os.path.join(generated_images_dir, f'generated_vs_original_{os.path.splitext(image_file)[0]}.png')
+    plt.savefig(save_path)
+    plt.close()
+    print(f"Saved generated image comparison to {save_path}")
+          
