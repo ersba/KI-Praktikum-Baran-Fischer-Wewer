@@ -44,10 +44,10 @@ Der [ConvNet Calculator](https://madebyollin.github.io/convnet-calculator/) und 
 - Anderer Ansatz mit interpolate billinear wurde verwendet -> Bilder haben die verlangte Dimension sind aber von der Qualität schlecht. Nach längerem Training muss die Qualität der Bilder getestet werden.
 
 Anpassung der Dateneinlesung Dennis:
--Das generierte Bild wird im Gegensatz zum ersten Ansatz nicht auf 256x256 Pixelsondern auf die Größe der tatsächlichen Zielbilder interpoliert
--Die kann zu einer genaueren Bewertung führen und die Fähigkeit des Diskriminators verbessern um Unterschiede zwischen echten und generierten Bildern zu erkennen
--Die Verwendung der gleichen Bildgröße für generierte und echte Bilder kann zu realistischeren Ergebnissen führen, da der Diskriminator feinere Details und Unregelmäßigkeiten besser erkennen kann
--Dafür ist bei der ersten Version das Training vereinfacht weil wir ein konsistentes Eingabeformat haben, dies kann den Trainingsprozess beschleunigen
+- Das generierte Bild wird im Gegensatz zum ersten Ansatz nicht auf 256x256 Pixelsondern auf die Größe der tatsächlichen Zielbilder interpoliert
+- Die kann zu einer genaueren Bewertung führen und die Fähigkeit des Diskriminators verbessern um Unterschiede zwischen echten und generierten Bildern zu erkennen
+- Die Verwendung der gleichen Bildgröße für generierte und echte Bilder kann zu realistischeren Ergebnissen führen, da der Diskriminator feinere Details und Unregelmäßigkeiten besser erkennen kann
+- Dafür ist bei der ersten Version das Training vereinfacht weil wir ein konsistentes Eingabeformat haben, dies kann den Trainingsprozess beschleunigen
 
 ## Generierung von Bildern mit Pix2Pix
 
