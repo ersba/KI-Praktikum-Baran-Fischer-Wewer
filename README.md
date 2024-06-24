@@ -44,4 +44,10 @@ Der [ConvNet Calculator](https://madebyollin.github.io/convnet-calculator/) und 
 - Anderer Ansatz mit interpolate billinear wurde verwendet -> Bilder haben die verlangte Dimension sind aber von der Qualität schlecht. Nach längerem Training muss die Qualität der Bilder getestet werden.
 
 
+## Generierung von Bildern mit Pix2Pix
 
+Laden Sie die Datei gen.pth aus unserem Teams-Kanal herutner und legen Sie sie im Ordner Test_Model ab: 
+https://hawhamburgedu.sharepoint.com/:u:/s/KIPraktikumBaranFischerWewer/Ea4VlttPPwxGgvVEkoR8mSoB-1_iY-2z1aWO-nfX-1BlLg?e=tq4SF1
+
+Um Bilder von möglichen Waldbränden zu generieren muss nur das Script [generate_image.py](Test_Model/generate_image.py) ausgeführt werden.
+Das Script erstellt für jedes Satellitenbild im Ordner [Test_Model/images/original](Test_Model/images/original) ein Bild im Ordner [Test_Model/images/original](Test_Model/images/generated) auf dem die mögliche Ausbreitung eines Waldbrandes zu sehen ist.
