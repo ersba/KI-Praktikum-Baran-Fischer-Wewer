@@ -2,11 +2,15 @@
 
 Idee: In diesem Projekt wollen wir die mögliche Ausbreitung von Waldbränden unter Zuhilfenahme von GANs simulieren. Hierfür verwenden wir echte Satellitenbilder mit und ohne Waldbrände, um diverse GANs zu trainieren und im Anschluss unser Ergebnis und die Fähigkeit unseres Modells realistische Satellitenbilder von Bränden zu erzeugen zu prüfen.
 
+Unsere Kunden: Katastrophenschutzorganisationen und politische Entscheidungsträger können die Simulationen nutzen, um sich auf die Waldbrände besser vorzubereiten. Durch die Visualisierung der möglichen Ausbreitung von Bränden können Notfallpläne angepasst und Ressourcen effizienter eingesetzt werden.
+
+
 Schwierigkeit 1: Die Datensammlung stellt eine erhebliche Herausforderung da, denn es gibt nur wenige und nicht ausreichende Bilder die für unseren Ansatz genutzt werden können. Aus diesem Grund war der erste Ansatz das Datenset https://www.kaggle.com/datasets/abdelghaniaaba/wildfire-prediction-dataset zu verwenden. Das Problem bei diesem Datenset ist allerdings das die Bilder von Waldbränden aus anderen Koordinaten kommen als die Bilder ohne Waldbrände. Daher kann dieses Datenset nicht genutzt werden um den Ausbruch eines Feuers  vorher und nachher darzustellen. Deswegen war der erste Ansatz ein CycleGAN zu verwenden.
 
-CycleGAN Ansatz Ersan
-
-
+CycleGAN Ansatz Ersan:
+- Erste lauffähige Implementierung
+- Training mittels unüberwachtes Lernen, das Modell lernt aus Daten, ohne Labels oder Paarungen von Eingaben und gewünschten Ausgaben zu haben
+- Feststellung dass die Bilder nicht scharf genug werden und dass ein anderer Ansatz benötigt wird
 
 Ansatz Satelitendaten per Bot zum Datenset zu ergänzen Dennis:
 Da dieser Ansatz gescheitert ist wurde die Entscheidung getroffen das für jedes Waldbrand Bild aus dem Datenset ein äquivalentes Bild der selben Koordinaten ohne Waldbrand her muss. Dafür war der erste Ansatz dies mithilfe eines python scripts durchzuführen und für jede Koordinate mit Waldbrand ein Satelitenbild herunterzuladen. Dieser Ansatz ist leider gescheitert da alle Websites die getestet wurden nach ca. 10 bis 20 aufrufen der Website keine Anfragen mehr ausgegeben haben. Deswegen war die nächste Idee die Satelitenbilder mithilfe einer API von Google Earth Images herunterzuladen.
